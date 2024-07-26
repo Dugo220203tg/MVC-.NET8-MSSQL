@@ -1,0 +1,251 @@
+﻿@model TDProjectMVC.ViewModels.HangHoaVM
+@{
+    ViewData["Title"] = "Detail";
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Electro - HTML Ecommerce Template</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="~/css/bootstrap.min.css" />
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="~/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb-tree">
+                        <li><a href="/Product">Store</a></li>
+                        <li><a href="/Product/@Model.ML">@Model.TenLoai</a></li>
+                        <li><a href="Product/@Model.NCC">@Model.MaNCC</a></li>
+                        <li class="active">@Model.TenHH</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- Product main img -->
+                <div class="col-md-5 col-md-push-2">
+                    <div id="product-main-img">
+                        @foreach (var imageUrl in Model.ImageUrls)
+                        {
+                            <div class="product-preview">
+                                <img src="~/Hinh/Hinh/HangHoa/@Model.MaHH/@imageUrl" alt="@Model.TenHH">
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /Product main img -->
+                <!-- Product thumb imgs  -->
+                <div class="col-md-2  col-md-pull-5">
+                    <div id="product-imgs">
+                        @foreach (var imageUrl in Model.ImageUrls)
+                        {
+                            <div class="product-preview">
+                                <img src="~/Hinh/Hinh/HangHoa/@Model.MaHH/@imageUrl" alt="@Model.TenHH">
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /Product thumb imgs -->
+                <!-- Product details -->
+                <div class="col-md-5">
+                    <div class="product-details">
+                        <h2 class="product-name">@Model.TenHH</h2>
+                        <div>
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                        </div>
+                        <div>
+                            <h3 class="product-price">$@Model.DonGia <del class="product-old-price">$@(Model.DonGia * (100 + Model.GiamGia) / 100)</del></h3>
+                            <span class="product-available">In Stock</span>
+                        </div>
+                        <p>@Model.MoTa</p>
+
+                        @* <div class="product-options">
+                            <label>
+                                Size
+                                <select class="input-select">
+                                    <option value="0">@Model.MoTaNgan</option>
+                                </select>
+                            </label>
+                            <label>
+                                Color
+                                <select class="input-select">
+                                    <option value="0">Red</option>
+                                </select>
+                            </label>
+                        </div> *@
+                        <div class="add-to-cart">
+                            <form id="addToCartForm">
+                                <div class="qty-label">
+                                    Qty
+                                    <div class="input-number">
+                                        <input type="number" id="quantity" name="quantity" value="1" min="1">
+                                        <span class="qty-up">+</span>
+                                        <span class="qty-down">-</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="add-to-cart-btn" onclick="addToCart(@Model.MaHH, $('#quantity').val(), 'Normal')">
+                                    <i class="fa fa-shopping-cart"></i> add to cart
+                                </button>
+                            </form>
+                        </div>
+                        <ul class="product-btns">
+                            <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                            <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                        </ul>
+                        <ul class="product-links">
+                            <li>Category:</li>
+                            <li><a href="/Product/@Model.ML">@Model.TenLoai</a></li>
+                            <li><a href="Product/@Model.NCC">@Model.MaNCC</a></li>
+                        </ul>
+
+                        <ul class="product-links">
+                            <li>Share:</li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!-- /Product details -->
+                <!-- Product tab -->
+                <div class="col-md-12">
+                    <div id="product-tab">
+                        <!-- product tab nav -->
+                        <ul class="tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab1">Thông Tin</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Chi Tiết</a></li>
+                            <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        </ul>
+                        <!-- /product tab nav -->
+                        <!-- product tab content -->
+                        <div class="tab-content">
+                            <!-- tab1  -->
+                            <div id="tab1" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>@Model.MoTa</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tab1  -->
+                            <!-- tab2  -->
+                            <div id="tab2" class="tab-pane fade in">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>@Model.MoTa</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tab2  -->
+                            <!-- tab3  -->
+                            <div id="tab3" class="tab-pane fade in">
+                                <div class="row">
+                                    <!-- Rating -->
+                                    <div class="col-md-3">
+                                        @await Component.InvokeAsync("DanhGiaSao", new { maHH = @Model.MaHH })
+                                    </div>
+                                    <!-- /Rating -->
+                                    <!-- Reviews -->
+                                    <div class="col-md-6">
+                                        <div id="reviews">
+                                            <ul class="reviews">
+                                                @await Component.InvokeAsync("DanhGia", new { maHH = @Model.MaHH })
+                                            </ul>
+                                            <ul class="reviews-pagination">
+                                                <li class="active">1</li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- /Reviews -->
+                                    <!-- Review Form -->
+                                    <div class="col-md-3">
+                                        <div id="review-form">
+                                            <form class="review-form">
+                                                <input class="input" type="text" placeholder="Your Name">
+                                                <input class="input" type="email" placeholder="Your Email">
+                                                <textarea class="input" placeholder="Your Review"></textarea>
+                                                <div class="input-rating">
+                                                    <span>Your Rating: </span>
+                                                    <div class="stars">
+                                                        <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                        <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                        <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                        <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                        <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                                    </div>
+                                                </div>
+                                                <button class="primary-btn">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- /Review Form -->
+                                </div>
+                            </div>
+                            <!-- /tab3  -->
+                        </div>
+                        <!-- /product tab content  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/nouislider.min.js"></script>
+    <script src="~/js/jquery.zoom.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>

@@ -1,0 +1,60 @@
+﻿@model TDProjectMVC.ViewModels.LoginVM
+@{
+    ViewData["Title"] = "DangNhap";
+}
+<head>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="~/css/bootstrap.min.css" />
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="~/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<div class="billing-details" style="    display: grid;
+    place-items: center;">
+    <div class="section-title">
+        <h3 class="title">Login</h3>
+    </div>
+    <form asp-action="DangNhap" asp-route-returnurl="@ViewBag.ReturnUrl">
+        <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="form-group">
+                <input class="input" asp-for="@Model.UserName" placeholder="User Name">
+                <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input class="input" asp-for="@Model.Password" placeholder="PassWord">
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="primary-btn order-submit">Đăng Nhập</button>
+            <a asp-action="QuenMatKhau" asp-controller="Khachhang" class="btn border-danger">Quên mật khẩu ?</a>
+            <a asp-action="DangKy" asp-controller="Khachhang" class="btn border-danger">Đăng ký tài khoản</a>
+  
+    </form>
+</div>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/slick.min.js"></script>
+<script src="~/js/nouislider.min.js"></script>
+<script src="~/js/jquery.zoom.min.js"></script>
+<script src="~/js/main.js"></script>
+
