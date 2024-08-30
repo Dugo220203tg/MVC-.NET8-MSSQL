@@ -62,11 +62,17 @@ namespace TDProjectMVC.Controllers
         {
             var cartData = new
             {
-                CardProducts = Cart,
+                CardProducts = Cart.Select(p => new
+                {
+                    p.MaHH,
+                    p.TenHH,
+                    p.SoLuong,
+                    p.DonGia,
+                    Hinh = p.Hinh?.Split(',').FirstOrDefault()?.Trim() ?? ""
+                }),
                 TotalQuantity = Cart.Sum(p => p.SoLuong),
                 TotalAmount = Cart.Sum(p => p.SoLuong * p.DonGia)
             };
-
             return Json(cartData);
         }
         //public IActionResult RemoveCart(int id)

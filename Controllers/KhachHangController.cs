@@ -177,6 +177,7 @@ namespace TDProjectMVC.Controllers
             ViewBag.ErrorMessage = "Không tìm thấy thông tin khách hàng.";
             return View("Error"); // Thay thế "Error" bằng tên View chứa trang thông báo lỗi của bạn.
         }
+        [Authorize]
         [HttpPost]
         public IActionResult UpdateProfile(string customerName, string customerEmail, string customerAddress)
         {
@@ -207,6 +208,27 @@ namespace TDProjectMVC.Controllers
             ViewBag.ErrorMessage = "Không tìm thấy thông tin khách hàng.";
             return View("Error"); // Thay thế "Error" bằng tên View chứa trang thông báo lỗi của bạn.
         }
+
+        [Authorize]
+        public async Task<IActionResult> AddComment(int MaHH, string noiDung, int sao)
+        {
+            var userId = User.Identity.Name; // Assuming the user is authenticated and Name is used as the user ID
+
+            var danhgia = new DanhGiaSp
+            {
+                MaHh = MaHH,
+                MaKh = userId,
+                Ngay = DateTime.Now,
+                NoiDung = noiDung, // Setting the comment content
+                Sao = sao, // Setting the rating
+                //TrangThai = 1
+            };
+
+            db.Add(danhgia);
+            await db.SaveChangesAsync();
+            return Json(new { success = true, message = "Comment success!" });
+        }
+
         #endregion
     }
 }

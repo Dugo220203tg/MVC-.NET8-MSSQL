@@ -35,7 +35,9 @@
                             }
                         </div>
                         <div class="product-body">
-                            <h2 class="product-name"><a href="#">@item.TenHH</a></h2>
+                            <h2 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
+                                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.MaHH">@item.TenHH</a>
+                            </h2>
                             <h4 class="product-price"><span class="qty">@item.SoLuong x</span>$@item.DonGia</h4>
                         </div>
                         <button class="delete" onclick="RemoveCart(@item.MaHH, this)">

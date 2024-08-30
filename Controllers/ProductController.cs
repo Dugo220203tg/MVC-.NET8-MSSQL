@@ -64,14 +64,15 @@ namespace TDProjectMVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Search(string? query)
+        public async Task<IActionResult> Search(string? query)
         {
             var hangHoas = db.HangHoas.AsQueryable();
-            if (query != null)
+            if (!string.IsNullOrEmpty(query))
             {
                 hangHoas = hangHoas.Where(p => p.TenHh.Contains(query));
             }
-            var result = hangHoas.Select(p => new HangHoaVM
+
+            var result = await hangHoas.Select(p => new HangHoaVM
             {
                 MaHH = p.MaHh,
                 TenHH = p.TenHh,
@@ -79,8 +80,8 @@ namespace TDProjectMVC.Controllers
                 Hinh = p.Hinh ?? "",
                 MoTaNgan = p.MoTaDonVi ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
+            }).ToListAsync();
 
-            });
             return View(result);
         }
         public IActionResult Detail(int id)

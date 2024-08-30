@@ -11,6 +11,7 @@
         public string TenHH { get; set; }
         public string TenNCC { get; set; }
         public double DonGia { get; set; }
+        public List<string> ImageUrls { get; set; }
 
     }
 }

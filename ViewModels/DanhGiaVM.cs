@@ -20,6 +20,14 @@ namespace TDProjectMVC.ViewModels
         public double BaSao { get; set; }
         public double BonSao { get; set; }
         public double NamSao { get; set; }
+        public int TrangThai { get; set; }
 
+        public double TotalRatings => NamSao + BonSao + BaSao + HaiSao + MotSao;
+
+        public double NamSaoPercentage => TotalRatings > 0 ? (double)NamSao / TotalRatings * 100 : 0;
+        public double BonSaoPercentage => TotalRatings > 0 ? (double)BonSao / TotalRatings * 100 : 0;
+        public double BaSaoPercentage => TotalRatings > 0 ? (double)BaSao / TotalRatings * 100 : 0;
+        public double HaiSaoPercentage => TotalRatings > 0 ? (double)HaiSao / TotalRatings * 100 : 0;
+        public double MotSaoPercentage => TotalRatings > 0 ? (double)MotSao / TotalRatings * 100 : 0;
     }
 }

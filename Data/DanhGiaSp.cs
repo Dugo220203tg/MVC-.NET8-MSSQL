@@ -20,4 +20,9 @@ public partial class DanhGiaSp
     public virtual HangHoa MaHhNavigation { get; set; } = null!;
 
     public virtual KhachHang MaKhNavigation { get; set; } = null!;
+
+    public static implicit operator DanhGiaSp(DanhGiaSp v)
+    {
+        throw new NotImplementedException();
+    }
 }
