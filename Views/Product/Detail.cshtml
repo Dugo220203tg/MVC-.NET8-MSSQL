@@ -179,26 +179,34 @@
                                     </div>
                                     <!-- /Reviews -->
                                     <!-- Review Form -->
-                                    <div class="col-md-3">
-                                        <div id="review-form">
-                                            <form class="review-form">
-                                                <input class="input" type="text" placeholder="Your Name">
-                                                <input class="input" type="email" placeholder="Your Email">
-                                                <textarea class="input" placeholder="Your Review"></textarea>
-                                                <div class="input-rating">
-                                                    <span>Your Rating: </span>
-                                                    <div class="stars">
-                                                        <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                        <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                        <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                        <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                        <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-                                                    </div>
+                                <div class="col-md-3">
+                                    <div id="review-form">
+                                        <form id="commentForm" class="review-form">
+                                            <!-- Hidden field to store the product ID (MaHH) -->
+                                            <input type="hidden" id="MaHH" name="MaHH" value="@Model.MaHH" /> <!-- Assuming you pass MaHH from the model -->
+
+                                            <input class="input" type="text" id="username" placeholder="Your Name">
+                                            <input class="input" type="email" id="useremail" placeholder="Your Email">
+                                            <textarea class="input" id="noiDung" placeholder="Your Review"></textarea>
+
+                                            <div class="input-rating">
+                                                <span>Your Rating: </span>
+                                                <div class="stars">
+                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
-                                                <button class="primary-btn">Submit</button>
-                                            </form>
-                                        </div>
+                                            </div>
+
+                                            <button type="button" class="primary-btn" id="submitComment">Submit</button>
+                                        </form>
                                     </div>
+
+                                    <div id="commentMessage" style="display:none; color:green;">Comment submitted successfully!</div>
+                                    <div id="errorMessage" style="display:none; color:red;">Error submitting comment!</div>
+                                </div>
                                     <!-- /Review Form -->
                                 </div>
                             </div>

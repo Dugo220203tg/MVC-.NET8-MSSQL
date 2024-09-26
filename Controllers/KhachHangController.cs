@@ -35,37 +35,37 @@ namespace TDProjectMVC.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                try
+            try
+            {
+                var khachHangexit = await db.KhachHangs.SingleOrDefaultAsync(kh => kh.MaKh == model.MaKh);
+
+                if (khachHangexit != null)
                 {
-                    var khachHangexit = await db.KhachHangs.SingleOrDefaultAsync(kh => kh.MaKh == model.MaKh);
-
-                    if (khachHangexit != null)
-                    {
-                        ModelState.AddModelError("loi", "Username da duoc su dung");
-                    }
-                    else
-                    {
-                        var khachHang = _mapper.Map<KhachHang>(model);
-                        khachHang.RandomKey = MyUtil.GenerateRamdomKey();
-                        khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
-                        khachHang.HieuLuc = true; //sẽ xử lý khi dùng Mail để active
-                        khachHang.VaiTro = 0;
-
-                        if (Hinh != null)
-                        {
-                            khachHang.Hinh = MyUtil.UploadHinh(Hinh, "KhachHang");
-                        }
-
-                        db.Add(khachHang);
-                        await db.SaveChangesAsync();
-
-                        return RedirectToAction("DangNhap", "KhachHang");
-                    }
+                    ModelState.AddModelError("loi", "Username da duoc su dung");
                 }
-                catch (Exception ex)
+                else
                 {
-                    ModelState.AddModelError("Loi", ex.Message);
+                    var khachHang = _mapper.Map<KhachHang>(model);
+                    khachHang.RandomKey = MyUtil.GenerateRamdomKey();
+                    khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
+                    khachHang.HieuLuc = true; //sẽ xử lý khi dùng Mail để active
+                    khachHang.VaiTro = 0;
+
+                    if (Hinh != null)
+                    {
+                        khachHang.Hinh = MyUtil.UploadHinh(Hinh, "KhachHang");
+                    }
+
+                    db.Add(khachHang);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("DangNhap", "KhachHang");
                 }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Loi", ex.Message);
+            }
             //}
             return View(model);
         }
@@ -210,23 +210,48 @@ namespace TDProjectMVC.Controllers
         }
 
         [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AddComment(int MaHH, string noiDung, int sao)
         {
-            var userId = User.Identity.Name; // Assuming the user is authenticated and Name is used as the user ID
-
-            var danhgia = new DanhGiaSp
+            if (sao < 1 || sao > 5)
             {
-                MaHh = MaHH,
-                MaKh = userId,
-                Ngay = DateTime.Now,
-                NoiDung = noiDung, // Setting the comment content
-                Sao = sao, // Setting the rating
-                //TrangThai = 1
-            };
+                return Json(new { success = false, message = "Invalid rating value." });
+            }
 
-            db.Add(danhgia);
-            await db.SaveChangesAsync();
-            return Json(new { success = true, message = "Comment success!" });
+            if (string.IsNullOrWhiteSpace(noiDung))
+            {
+                return Json(new { success = false, message = "Comment content cannot be empty." });
+            }
+
+            try
+            {
+                var userId = User.Identity.Name; // Assuming the user is authenticated and Name is used as the user ID
+
+                if (userId == null)
+                {
+                    return Json(new { success = false, message = "User not authenticated." });
+                }
+
+                var danhgia = new DanhGiaSp
+                {
+                    MaHh = MaHH,
+                    MaKh = userId,
+                    Ngay = DateTime.Now,
+                    NoiDung = noiDung,
+                    Sao = sao,
+                    TrangThai = 1 // Assuming this means active
+                };
+
+                db.Add(danhgia);
+                await db.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Comment submitted successfully!" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here using your logging mechanism (like Serilog, NLog, etc.)
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
         }
 
         #endregion

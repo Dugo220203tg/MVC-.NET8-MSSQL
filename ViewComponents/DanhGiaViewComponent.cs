@@ -18,7 +18,7 @@ namespace TDProjectMVC.ViewComponents
                 .Select(lo => new DanhGiaVM
                 {
                     MaKH = lo.MaKh,
-                    Ngay = (DateOnly)lo.Ngay,
+                    Ngay = (DateTime)lo.Ngay,
                     NoiDung = lo.NoiDung,
                     MaHH = lo.MaHh,
                     Sao = (int)lo.Sao,

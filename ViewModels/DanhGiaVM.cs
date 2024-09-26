@@ -13,7 +13,7 @@ namespace TDProjectMVC.ViewModels
         public int Sao { get; set; }
         public int MaHH { get; set; }
         public string NoiDung { get; set; }
-        public DateOnly Ngay { get; set; }
+        public DateTime Ngay { get; set; }
         public double TrungBinhSao { get; set; }
         public double MotSao { get; set; }
         public double HaiSao { get; set; }

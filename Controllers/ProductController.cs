@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PagedList;
 using System.Drawing.Printing;
+using PagedList;
 using TDProjectMVC.Data;
 using TDProjectMVC.ViewModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;

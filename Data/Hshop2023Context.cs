@@ -54,7 +54,8 @@ public partial class Hshop2023Context : DbContext
     public virtual DbSet<YeuThich> YeuThiches { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-4AS3J3K;Initial Catalog=Hshop2023;Integrated Security=True;Trust Server Certificate=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-4AS3J3K;Initial Catalog=Hshop2023;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -148,10 +149,14 @@ public partial class Hshop2023Context : DbContext
             entity.Property(e => e.MaDg)
                 .ValueGeneratedNever()
                 .HasColumnName("MaDG");
+            entity.Property(e => e.MaDg)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("MaDG_New");
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
             entity.Property(e => e.MaKh)
                 .HasMaxLength(20)
                 .HasColumnName("MaKH");
+            entity.Property(e => e.Ngay).HasColumnType("datetime");
 
             entity.HasOne(d => d.MaHhNavigation).WithMany(p => p.DanhGiaSps)
                 .HasForeignKey(d => d.MaHh)
@@ -166,11 +171,11 @@ public partial class Hshop2023Context : DbContext
 
         modelBuilder.Entity<DanhMucSp>(entity =>
         {
+            entity.HasKey(e => e.MaDanhMuc);
+
             entity.ToTable("DanhMucSP");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.MaDanhMuc).ValueGeneratedNever();
             entity.Property(e => e.TenDanhMuc)
                 .HasMaxLength(10)
                 .IsFixedLength();
@@ -342,6 +347,10 @@ public partial class Hshop2023Context : DbContext
             entity.Property(e => e.Hinh).HasMaxLength(50);
             entity.Property(e => e.TenLoai).HasMaxLength(50);
             entity.Property(e => e.TenLoaiAlias).HasMaxLength(50);
+
+            entity.HasOne(d => d.DanhMuc).WithMany(p => p.Loais)
+                .HasForeignKey(d => d.DanhMucId)
+                .HasConstraintName("FK_Loai_DanhMucSP");
         });
 
         modelBuilder.Entity<NhaCungCap>(entity =>

@@ -17,5 +17,7 @@ public partial class Loai
 
     public int? DanhMucId { get; set; }
 
+    public virtual DanhMucSp? DanhMuc { get; set; }
+
     public virtual ICollection<HangHoa> HangHoas { get; set; } = new List<HangHoa>();
 }

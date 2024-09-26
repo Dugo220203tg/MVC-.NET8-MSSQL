@@ -5,7 +5,9 @@ namespace TDProjectMVC.Data;
 
 public partial class DanhMucSp
 {
-    public int Id { get; set; }
+    public int MaDanhMuc { get; set; }
 
     public string TenDanhMuc { get; set; } = null!;
+
+    public virtual ICollection<Loai> Loais { get; set; } = new List<Loai>();
 }

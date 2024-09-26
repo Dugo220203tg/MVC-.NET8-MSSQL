@@ -33,5 +33,10 @@ namespace TDProjectMVC.Helpers
 
 			return sb.ToString();
 		}
-	}
+        public bool VerifyPassword(string inputPassword, string storedPassword, string randomKey)
+        {
+            string hashedInputPassword = inputPassword.ToMd5Hash(randomKey);
+            return hashedInputPassword == storedPassword;
+        }
+    }
 }

@@ -14,7 +14,7 @@ namespace TDProjectMVC.ViewComponents
 		{
 			var data = db.DanhMucSps.Select(lo => new DanhMucVM
 			{
-				ID = lo.Id,
+				ID = lo.MaDanhMuc,
 				TenDanhMuc = lo.TenDanhMuc,
 			}).OrderBy(p => p.TenDanhMuc);
 			return View("Index", data);

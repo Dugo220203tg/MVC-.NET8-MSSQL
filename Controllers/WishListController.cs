@@ -54,21 +54,28 @@ namespace TDProjectMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveWishList(int id)
         {
-            // Log the received ID for debugging
-            Console.WriteLine($"Received ID: {id}"); // Debugging line
-
-            // Find the wishlist item by ID
-            var yeuthichremove = await db.YeuThiches.FirstOrDefaultAsync(p => p.MaYt == id);
-            if (yeuthichremove == null)
+            try
             {
-                Console.WriteLine("Product not found in wishlist"); // Debugging line
-                return Json(new { success = false, message = "Product not found in wishlist" });
-            }
+                Console.WriteLine($"Received ID: {id}"); // Log received ID
 
-            // Remove the item from the database
-            db.YeuThiches.Remove(yeuthichremove);
-            await db.SaveChangesAsync();
-            return Json(new { success = true, message = "Product removed from wishlist" });
+                var yeuthichremove = await db.YeuThiches.FirstOrDefaultAsync(p => p.MaYt == id);
+                if (yeuthichremove == null)
+                {
+                    Console.WriteLine("Product not found in wishlist"); // Log if not found
+                    return Json(new { success = false, message = "Product not found in wishlist" });
+                }
+
+                db.YeuThiches.Remove(yeuthichremove);
+                await db.SaveChangesAsync();
+                Console.WriteLine("Product removed from wishlist"); // Log successful removal
+                return Json(new { success = true, message = "Product removed from wishlist" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing product from wishlist: {ex.Message}"); // Log the exception
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}"); // Log the stack trace for more details
+                return StatusCode(500, new { success = false, message = "An error occurred while removing the product from the wishlist.", details = ex.Message });
+            }
         }
 
     }
