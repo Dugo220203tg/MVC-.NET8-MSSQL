@@ -138,7 +138,7 @@ public partial class Hshop2023Context : DbContext
 
         modelBuilder.Entity<DanhGiaSp>(entity =>
         {
-            entity.HasKey(e => e.MaDg);
+            entity.HasKey(e => e.MaDg).HasName("PK_DanhGiaSP_1");
 
             entity.ToTable("DanhGiaSP");
 
@@ -146,12 +146,7 @@ public partial class Hshop2023Context : DbContext
 
             entity.HasIndex(e => e.MaKh, "IX_DanhGiaSP_MaKH");
 
-            entity.Property(e => e.MaDg)
-                .ValueGeneratedNever()
-                .HasColumnName("MaDG");
-            entity.Property(e => e.MaDg)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("MaDG_New");
+            entity.Property(e => e.MaDg).HasColumnName("MaDG");
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
             entity.Property(e => e.MaKh)
                 .HasMaxLength(20)

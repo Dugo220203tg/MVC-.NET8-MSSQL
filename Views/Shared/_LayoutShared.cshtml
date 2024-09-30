@@ -241,8 +241,39 @@
         });
 
     </script>
+@*     Script danh muc *@
+    <script>
+        // Function to get query parameters from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
+        // Set checkbox state based on the 'danhmuc' query parameter in the URL
+        const selecteddanhmuc = getQueryParam('danhmuc');
+        if (selecteddanhmuc) {
+            document.querySelectorAll('.danhmuc-checkbox').forEach(function (checkbox) {
+                if (checkbox.id === selecteddanhmuc) {
+                    checkbox.checked = true;
+                }
+            });
+        }
 
-
+        // Event listener for checkboxes
+        document.querySelectorAll('.danhmuc-checkbox').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Uncheck all other checkboxes if this one is checked
+                if (checkbox.checked) {
+                    // Redirect to the new URL based on the selected checkbox
+                    window.location.href = checkbox.dataset.url;
+                } else {
+                    // If checkbox is unchecked, go back to the original page (remove 'danhmuc' from the URL)
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.delete('danhmuc'); // Remove 'danhmuc' param
+                    window.location.href = currentUrl.href; // Reload the page without 'danhmuc'
+                }
+            });
+        });
+    </script>
 </body>
 </html>

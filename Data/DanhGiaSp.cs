@@ -5,8 +5,6 @@ namespace TDProjectMVC.Data;
 
 public partial class DanhGiaSp
 {
-    public int MaDg { get; set; }
-
     public string MaKh { get; set; } = null!;
 
     public int? Sao { get; set; }
@@ -19,7 +17,7 @@ public partial class DanhGiaSp
 
     public int? TrangThai { get; set; }
 
-    //public int MaDg { get; set; }
+    public int MaDg { get; set; }
 
     public virtual HangHoa MaHhNavigation { get; set; } = null!;
 

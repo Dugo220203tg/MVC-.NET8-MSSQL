@@ -15,7 +15,7 @@ public partial class ChiTietHd
 
     public int SoLuong { get; set; }
 
-    public double GiamGia { get; set; }
+    public double MaGiamGia { get; set; }
 
     public virtual HoaDon MaHdNavigation { get; set; } = null!;
 

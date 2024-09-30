@@ -189,7 +189,7 @@ namespace TDProjectMVC.Controllers
                             MaHh = item.MaHH,
                             DonGia = item.DonGia,
                             SoLuong = item.SoLuong,
-                            GiamGia = item.GiamGia,
+                            MaGiamGia = item.GiamGia,
                         });
                     }
                     db.AddRange(cthds);
@@ -305,7 +305,7 @@ namespace TDProjectMVC.Controllers
                         MaHh = item.MaHH,
                         DonGia = item.DonGia,
                         SoLuong = item.SoLuong,
-                        GiamGia = item.GiamGia,
+                        MaGiamGia = item.GiamGia,
                     });
                 }
                 db.AddRange(cthds);

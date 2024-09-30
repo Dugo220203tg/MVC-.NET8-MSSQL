@@ -8,8 +8,7 @@
 				@* 			<input type="checkbox" id="brand-1">
 			*@
 				<a asp-controller="Product" asp-action="Index" asp-route-hang="@item.MaNCC" class="danhmuc">
-					<label for="brand-1">
-						<span></span>
+					<label for="brand-1" style="padding-left:unset">
 						@item.TenCongTy
 						<small>(@item.SoLuong)</small>
 					</label>

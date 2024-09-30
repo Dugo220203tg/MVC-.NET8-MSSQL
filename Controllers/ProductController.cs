@@ -16,7 +16,7 @@ namespace TDProjectMVC.Controllers
         {
             db = context;
         }
-        public IActionResult Index(string? hang, int? loai, int? page, int? pagesize)
+        public IActionResult Index(int? danhmuc, string? hang, int? loai, int? page, int? pagesize)
         {
             if (page == null)
             {
@@ -37,6 +37,10 @@ namespace TDProjectMVC.Controllers
             if (hang != null)
             {
                 hangHoas = hangHoas.Where(p => p.MaNcc == hang);
+            }
+            if (danhmuc != null)
+            {
+                hangHoas = hangHoas.Where(p => p.MaLoaiNavigation.DanhMucId == danhmuc);
             }
             var result = hangHoas.Select(p => new HangHoaVM
             {
