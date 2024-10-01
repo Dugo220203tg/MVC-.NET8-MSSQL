@@ -148,9 +148,15 @@
                         <li><a href="/">Home</a></li>
                         @* <li><a href="#">Hot Deals</a></li> *@
                         <li><a href="/Product">Store</a></li>
-                        @* 						<li><a href="/Detail">Shop Detail</a></li> *@
                         <li><a href="/Cart">Giỏ Hàng</a></li>
-                        <li><a href="/KhachHang/DangKy">Register</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="/DonHang">Đơn hàng</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/KhachHang/DangKy">Đăng ký</a></li>
+                        }
                     </ul>
                     <!-- /NAV -->
                 </div>
@@ -241,7 +247,7 @@
         });
 
     </script>
-@*     Script danh muc *@
+    @*     Script danh muc *@
     <script>
         // Function to get query parameters from the URL
         function getQueryParam(param) {

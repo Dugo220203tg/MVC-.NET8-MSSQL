@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TDProjectMVC.Data;
 using TDProjectMVC.ViewModels;
@@ -13,9 +14,18 @@ namespace TDProjectMVC.Controllers
             db = context;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var yeuthich = await db.YeuThiches
+            // Lấy mã khách hàng từ danh tính người dùng đã đăng nhập
+            var MaKh = User.Identity.Name;
+
+            // Truy vấn danh sách yêu thích từ database
+            var YeuThichs = db.YeuThiches.AsQueryable()
+                                         .Where(p => p.MaKh == MaKh);
+
+            // Truy xuất danh sách yêu thích và ánh xạ dữ liệu sang ViewModel
+            var result = await YeuThichs
                 .Select(p => new WishListVM
                 {
                     MaYT = p.MaYt,
@@ -25,9 +35,12 @@ namespace TDProjectMVC.Controllers
                     Hinh = p.MaHhNavigation.Hinh
                 })
                 .ToListAsync();
-            return Json(yeuthich);
+
+            // Trả về dữ liệu dưới dạng JSON
+            return Json(result);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToWishList(int MaHH)
         {
@@ -50,33 +63,38 @@ namespace TDProjectMVC.Controllers
             await db.SaveChangesAsync();
             return Json(new { success = true, message = "Product added to wishlist" });
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> RemoveWishList(int id)
         {
             try
             {
-                Console.WriteLine($"Received ID: {id}"); // Log received ID
-
                 var yeuthichremove = await db.YeuThiches.FirstOrDefaultAsync(p => p.MaYt == id);
+
                 if (yeuthichremove == null)
                 {
-                    Console.WriteLine("Product not found in wishlist"); // Log if not found
-                    return Json(new { success = false, message = "Product not found in wishlist" });
+                    // Trường hợp sản phẩm không còn tồn tại
+                    return Json(new { success = false, message = "Product not found or has already been removed." });
                 }
 
                 db.YeuThiches.Remove(yeuthichremove);
                 await db.SaveChangesAsync();
-                Console.WriteLine("Product removed from wishlist"); // Log successful removal
+
                 return Json(new { success = true, message = "Product removed from wishlist" });
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Xử lý lỗi concurrency
+                return StatusCode(409, new { success = false, message = "A concurrency error occurred.", details = ex.Message });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error removing product from wishlist: {ex.Message}"); // Log the exception
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}"); // Log the stack trace for more details
+                // Xử lý lỗi chung
                 return StatusCode(500, new { success = false, message = "An error occurred while removing the product from the wishlist.", details = ex.Message });
             }
         }
+
+
 
     }
 }

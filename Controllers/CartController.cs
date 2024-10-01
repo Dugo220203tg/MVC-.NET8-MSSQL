@@ -152,7 +152,7 @@ namespace TDProjectMVC.Controllers
                         CreatedDate = DateTime.Now,
                         Description = $"{model.HoTen} {model.DienThoai}",
                         FullName = model.HoTen,
-                        OrderId = new Random().Next(1000, 100000)
+                        OrderId = new Random().Next(1, 100000)
                     };
                     return Redirect(_vnPayservice.CreatePaymentUrl(HttpContext, vnPayModel));
                 }

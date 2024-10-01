@@ -250,7 +250,7 @@ function addToWishlist(id) {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                updateWishList();
+                updateWishList(); // Cập nhật danh sách yêu thích sau khi thêm thành công
             } else {
                 Swal.fire({
                     icon: "error",
@@ -269,7 +269,8 @@ function addToWishlist(id) {
     });
 }
 
-// Function to update the wishlist display
+// Function to remove an item from the wishlist
+// Function to remove an item from the wishlist
 function RemoveWishList(id, element) {
     console.log(`Removing item with ID: ${id}`); // Debugging line
 
@@ -282,14 +283,14 @@ function RemoveWishList(id, element) {
             if (result.success) {
                 Swal.fire({
                     icon: "success",
-                    title: "Xóa Thành công",
+                    title: "Xóa thành công",
                     text: "Đã xóa sản phẩm khỏi danh sách yêu thích",
                     showConfirmButton: false,
                     timer: 1000,
                 }).then(() => {
-                    // Update the wishlist after the success message is displayed
+                    // Xóa phần tử trong DOM sau khi thành công
                     $(element).closest(".product-widget").remove();
-                    updateWishList();
+                    updateWishList(); // Cập nhật lại danh sách
                 });
             } else {
                 Swal.fire({
@@ -300,28 +301,38 @@ function RemoveWishList(id, element) {
             }
         },
         error: function (xhr, status, error) {
-            console.error(`Error: ${error}`); // Log the error for debugging
-            console.error(`Response Text: ${xhr.responseText}`); // Log the response text for more details
+            console.error(`Error: ${error}`); // Log lỗi cho quá trình debug
+            console.error(`Response Text: ${xhr.responseText}`); // Log response text để kiểm tra chi tiết lỗi
+
+            let errorMessage = "Đã xảy ra lỗi khi xóa sản phẩm khỏi danh sách yêu thích";
+
+            if (xhr.status === 409) {
+                // Lỗi concurrency (409 Conflict)
+                errorMessage = "Sản phẩm đã bị xóa hoặc thay đổi trước đó.";
+            }
+
             Swal.fire({
                 icon: "error",
                 title: "Lỗi",
-                text: `Đã xảy ra lỗi khi xóa sản phẩm khỏi danh sách yêu thích: ${xhr.responseText}`,
+                text: `${errorMessage}: ${xhr.responseText}`,
             });
         },
     });
 }
 
+
+// Function to update the wishlist display
 function updateWishList() {
     $.ajax({
         url: "/WishList/Index",
         type: "GET",
         success: function (data) {
-            $('.wish-list').empty();
+            $('.wish-list').empty(); // Làm trống danh sách trước khi cập nhật
             $.each(data, function (index, item) {
                 var productHtml = `
-          <div class="product-widget">
-            <div class="product-img" style="width:60px;height:60px">
-              ${(() => {
+                    <div class="product-widget">
+                        <div class="product-img" style="width:60px;height:60px">
+                            ${(() => {
                         let firstImageUrl = '';
                         if (item.hinh) {
                             const imageUrls = item.hinh.split(',');
@@ -333,34 +344,29 @@ function updateWishList() {
                             `<img src="/Hinh/Hinh/HangHoa/${item.maHH}/${firstImageUrl}" alt="${item.tenHH}" style="width:60px;height:60px">` :
                             '';
                     })()}
-            </div>
-            <div class="product-body">
-              <h2 class="product-name"><a href="#">${item.tenHH}</a></h2>
-            </div>
-            <button class="delete" data-product-id="${item.maYT}" onclick="RemoveWishList(${item.maYT}, this)">
-              <i class="fa fa-close"></i>
-            </button>
-          </div>
-        `;
+                        </div>
+                        <div class="product-body">
+                            <h2 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
+                                <a href="#">${item.tenHH}</a>
+                            </h2>
+                        </div>
+                        <button class="delete" data-product-id="${item.maYT}" onclick="RemoveWishList(${item.maYT}, this)">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+                `;
                 $('.wish-list').append(productHtml);
-            });
-
-            // Re-attach event listeners to new delete buttons
-            $('.wish-list .delete').on('click', function () {
-                var productId = $(this).data('product-id');
-                var productWidget = $(this).closest('.product-widget');
-                RemoveWishList(productId, productWidget);
             });
         },
         error: function (xhr, status, error) {
-            console.log(error);
+            console.log(error); // Log lỗi nếu không thể lấy danh sách yêu thích
         }
     });
 }
 
 // Initialize wishlist on document ready
 $(document).ready(function () {
-    updateWishList();
+    updateWishList(); // Cập nhật danh sách yêu thích khi trang được tải
 });
 
 

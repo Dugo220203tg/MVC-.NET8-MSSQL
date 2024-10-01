@@ -1,0 +1,52 @@
+﻿@model List<TDProjectMVC.ViewModels.DonHangVM>
+
+<div class="container">
+    <h2>Danh sách hóa đơn</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã Hóa Đơn</th>
+                <th>Khách Hàng</th>
+                <th>Ngày Đặt</th>
+                <th>Địa Chỉ</th>
+                <th>Chi Tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var donHang in Model)
+            {
+                <tr>
+                    <td>@donHang.MaHD</td>
+                    <td>@donHang.HoTen</td>
+                    <td>@donHang.NgayDat.ToString("dd/MM/yyyy")</td>
+                    <td>@donHang.DiaChi</td>
+                    <td>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Số Lượng</th>
+                                    <th>Đơn Giá</th>
+                                    <th>Hình Ảnh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ct in donHang.ChiTietHds)
+                                {
+                                    <tr>
+                                        <td>@ct.TenHangHoa</td>
+                                        <td>@ct.SoLuong</td>
+                                        <td>@ct.DonGia</td>
+                                        <td>
+                                            <img src="~/Hinh/Hinh/HangHoa/@ct.MaHH/@ct.HinhAnh" alt="@ct.TenHangHoa" style="width: 100px; height: auto;" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
