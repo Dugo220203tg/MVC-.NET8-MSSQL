@@ -35,7 +35,6 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
-
     <!-- Custom stlylesheet -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,6 +42,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link href="~/css/MyCss.css" rel="stylesheet"/>
     @RenderSection("Styles", required: false)
 
 </head>
@@ -179,10 +179,11 @@
     <script src="~/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/MyJS.js"></script>
-    <script src="~/js/310820224.js"></script>
+@*     <script src="~/js/MyJSs.js"></script>*@ 
+    <script src="~/js/10022024.js"></script>
     @RenderSection("scripts", required: false)
     <script>
+
         $(document).ready(function () {
             $('#submitComment').click(function () {
                 var MaHH = $('#MaHH').val();

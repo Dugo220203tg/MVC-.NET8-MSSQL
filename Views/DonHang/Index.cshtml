@@ -1,52 +1,87 @@
 ﻿@model List<TDProjectMVC.ViewModels.DonHangVM>
-
-<div class="container">
-    <h2>Danh sách hóa đơn</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Mã Hóa Đơn</th>
-                <th>Khách Hàng</th>
-                <th>Ngày Đặt</th>
-                <th>Địa Chỉ</th>
-                <th>Chi Tiết</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var donHang in Model)
-            {
-                <tr>
-                    <td>@donHang.MaHD</td>
-                    <td>@donHang.HoTen</td>
-                    <td>@donHang.NgayDat.ToString("dd/MM/yyyy")</td>
-                    <td>@donHang.DiaChi</td>
-                    <td>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tên Sản Phẩm</th>
-                                    <th>Số Lượng</th>
-                                    <th>Đơn Giá</th>
-                                    <th>Hình Ảnh</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var ct in donHang.ChiTietHds)
-                                {
-                                    <tr>
-                                        <td>@ct.TenHangHoa</td>
-                                        <td>@ct.SoLuong</td>
-                                        <td>@ct.DonGia</td>
-                                        <td>
-                                            <img src="~/Hinh/Hinh/HangHoa/@ct.MaHH/@ct.HinhAnh" alt="@ct.TenHangHoa" style="width: 100px; height: auto;" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div id="breadcrumb" class="section" style="padding:15px 0px">
+    <div class="container" style="text-align:center;">
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="breadcrumb-tree" class="breadcrumb-tree">
+                    <h2><a href="/">Đơn Hàng</a></h2>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Products</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var donHang in Model)
+                    {
+                        var orderTotal = 0.0;
+                        @foreach (var ct in donHang.ChiTietHds)
+                        {
+                            <tr>
+                                <td style="padding:15px;">
+                                    @{
+                                        string firstImageUrl = string.Empty;
+                                        if (!string.IsNullOrEmpty(ct.HinhAnh))
+                                        {
+                                            var imageUrls = ct.HinhAnh.Split(',');
+                                            firstImageUrl = imageUrls.FirstOrDefault();
+                                        }
+                                    }
+                                    @if (!string.IsNullOrEmpty(firstImageUrl))
+                                    {
+                                        <img src="~/Hinh/Hinh/HangHoa/@ct.MaHH/@firstImageUrl" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="@ct.TenHangHoa">
+                                    }
+                                    else
+                                    {
+                                        <span>No image available</span>
+                                    }
+                                </td>
+                                <td style="padding:15px;">
+                                    <p style="font-weight: bold;">
+                                        <a asp-action="Detail" asp-controller="HangHoa" asp-route-id="@ct.MaHH">
+                                            @ct.TenHangHoa
+                                        </a>
+                                    </p>
+                                    <p>X @ct.SoLuong</p>
+                                </td>
+                                <td style="padding:15px;">$@ct.DonGia.ToString("0.00")</td>
+                            </tr>
+                            orderTotal += ct.ThanhTien;
+                        }
+                        <tr>
+                            <td style="padding:15px;" colspan="1"></td>
+                            <td class="text-end" style="text-align: right;padding:15px;"><strong>Order Total:</strong></td>
+                            <td style="padding:15px;" colspan="1"><strong>$@orderTotal.ToString("0.00")</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:15px;" colspan="1"></td>
+                            <td  colspan="1" style="text-align: right;padding:15px;">
+                                <button class="btn btn-danger" style="margin-right:30px;" onclick="RemoveCart(@donHang.MaHD, this)">
+                                    Lịch sử mua hàng
+                                </button>
+                                <button class="btn btn-danger" onclick="RemoveCart(@donHang.MaHD, this)">
+                                    Chi tiết đơn hàng
+                                </button>
+                            </td>
+                            <td style="padding:15px;" colspan="1" class="text-end">
+                                <button class="btn btn-danger" onclick="RemoveCart(@donHang.MaHD, this)">
+                                    Hủy đơn hàng
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

@@ -57,6 +57,7 @@ namespace TDProjectMVC.Controllers
             HttpContext.Session.Set(MySetting.CART_KEY, gioHang);
             return Json(new { success = true, cartCount = gioHang.Sum(i => i.SoLuong) });
         }
+
         //Hiển thị dữ liệu trong giỏ hàng
         public IActionResult GetCartData()
         {
@@ -75,17 +76,7 @@ namespace TDProjectMVC.Controllers
             };
             return Json(cartData);
         }
-        //public IActionResult RemoveCart(int id)
-        //{
-        //    var gioHang = Cart;
-        //    var item = gioHang.SingleOrDefault(p => p.MaHH == id);
-        //    if (item != null)
-        //    {
-        //        gioHang.Remove(item);
-        //        HttpContext.Session.Set(MySetting.CART_KEY, gioHang);
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+
         public JsonResult RemoveCart(int id)
         {
             var gioHang = Cart;

@@ -2637,6 +2637,10 @@
       "PackagePath": "staticwebassets\\css\\CartCSS.css"
     },
     {
+      "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\css\\MyCss.css",
+      "PackagePath": "staticwebassets\\css\\MyCss.css"
+    },
+    {
       "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
@@ -3361,12 +3365,12 @@
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\310820224.js",
-      "PackagePath": "staticwebassets\\js\\310820224.js"
+      "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\10022024.js",
+      "PackagePath": "staticwebassets\\js\\10022024.js"
     },
     {
-      "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\MyJS.js",
-      "PackagePath": "staticwebassets\\js\\MyJS.js"
+      "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\MyJSs.js",
+      "PackagePath": "staticwebassets\\js\\MyJSs.js"
     },
     {
       "Id": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\bootstrap.min.js",

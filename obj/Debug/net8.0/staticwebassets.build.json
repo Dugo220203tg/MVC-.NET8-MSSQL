@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NfUZcSwGZfpl6GKF7OthYZPD5w8hyMCyH38x5IyrXek=",
+  "Hash": "DhcurTz9NraSU/mr9CpF3pOYRPfl89Q6e6+HPo9ah/E=",
   "Source": "TDProjectMVC",
   "BasePath": "_content/TDProjectMVC",
   "Mode": "Default",
@@ -186,6 +186,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\font-awesome.min.css"
+    },
+    {
+      "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\css\\MyCss.css",
+      "SourceId": "TDProjectMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\",
+      "BasePath": "_content/TDProjectMVC",
+      "RelativePath": "css/MyCss.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\MyCss.css"
     },
     {
       "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\css\\nouislider.min.css",
@@ -15977,12 +15996,12 @@
       "OriginalItemSpec": "wwwroot\\index.html"
     },
     {
-      "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\310820224.js",
+      "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\10022024.js",
       "SourceId": "TDProjectMVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\",
       "BasePath": "_content/TDProjectMVC",
-      "RelativePath": "js/310820224.js",
+      "RelativePath": "js/10022024.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -15993,7 +16012,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\310820224.js"
+      "OriginalItemSpec": "wwwroot\\js\\10022024.js"
     },
     {
       "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\bootstrap.min.js",
@@ -16072,12 +16091,12 @@
       "OriginalItemSpec": "wwwroot\\js\\main.js"
     },
     {
-      "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\MyJS.js",
+      "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\MyJSs.js",
       "SourceId": "TDProjectMVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\",
       "BasePath": "_content/TDProjectMVC",
-      "RelativePath": "js/MyJS.js",
+      "RelativePath": "js/MyJSs.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -16088,7 +16107,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\MyJS.js"
+      "OriginalItemSpec": "wwwroot\\js\\MyJSs.js"
     },
     {
       "Identity": "C:\\Users\\td\\source\\repos\\TDProjectMVC\\TDProjectMVC\\wwwroot\\js\\nouislider.min.js",

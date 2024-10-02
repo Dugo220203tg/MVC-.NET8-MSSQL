@@ -13,6 +13,8 @@ namespace TDProjectMVC.ViewModels
         public string? TenHangHoa { get; set; }
         public int MaGiamGia { get; set; }
         public string? HinhAnh { get; set; }
+        public double ThanhTien => SoLuong * DonGia * (1 - (double)MaGiamGia / 100);
+
     }
 
     public class DonHangVM

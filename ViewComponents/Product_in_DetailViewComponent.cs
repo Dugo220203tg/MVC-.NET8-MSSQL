@@ -24,6 +24,5 @@ namespace TDProjectMVC.ViewComponents
                 return View("Index", data);
 
         }
-
     }
 }
