@@ -82,60 +82,55 @@ namespace TDProjectMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> DangNhap(LoginVM model, string? ReturnUrl)
         {
-            ViewBag.ReturnUrl = ReturnUrl;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var khachHang = await db.KhachHangs.SingleOrDefaultAsync(kh => kh.MaKh == model.UserName);
-                if (khachHang == null)
-                {
-                    ModelState.AddModelError("Lỗi", "Không có khách hàng này");
-                }
-                else
-                {
-                    if (khachHang.VaiTro == 1)
-                    {
-                        ModelState.AddModelError("Lỗi ", "Sai quyền đăng nhập");
-
-                    }
-                    else
-                    if (!khachHang.HieuLuc)
-                    {
-                        ModelState.AddModelError("Lỗi", "Tài khoản đã bị khóa. Vui lòng liên hệ Admin.");
-                    }
-                    else
-                    {
-                        if (khachHang.MatKhau != model.Password.ToMd5Hash(khachHang.RandomKey))
-                        {
-                            ModelState.AddModelError("Lỗi", "Sai thông tin đăng nhập");
-                        }
-                        else
-                        {
-                            var claims = new List<Claim> {
-                                new Claim(ClaimTypes.Email, khachHang.Email),
-                                new Claim(ClaimTypes.Name, khachHang.HoTen),
-                                new Claim("CustomerID", khachHang.MaKh),
-
-								//claim - role động
-								new Claim(ClaimTypes.Role, "Customer")
-                            };
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                            await HttpContext.SignInAsync(claimsPrincipal);
-
-                            if (Url.IsLocalUrl(ReturnUrl))
-                            {
-                                return Redirect(ReturnUrl);
-                            }
-                            else
-                            {
-                                return Redirect("/");
-                            }
-                        }
-                    }
-                }
+                return View(model);
             }
-            return View();
+
+            var khachHang = await db.KhachHangs.SingleOrDefaultAsync(kh => kh.MaKh == model.UserName);
+            if (khachHang == null)
+            {
+                ModelState.AddModelError("", "Thông tin đăng nhập không chính xác");
+                return View(model);
+            }
+
+            if (khachHang.VaiTro == 1)
+            {
+                ModelState.AddModelError("", "Tài khoản không có quyền truy cập");
+                return View(model);
+            }
+
+            if (!khachHang.HieuLuc)
+            {
+                ModelState.AddModelError("", "Tài khoản đã bị khóa. Vui lòng liên hệ Admin.");
+                return View(model);
+            }
+
+            if (khachHang.MatKhau != model.Password.ToMd5Hash(khachHang.RandomKey))
+            {
+                ModelState.AddModelError("", "Thông tin đăng nhập không chính xác");
+                return View(model);
+            }
+
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, khachHang.MaKh),
+        new Claim(ClaimTypes.Email, khachHang.Email),
+        new Claim(ClaimTypes.Name, khachHang.HoTen),
+        new Claim(ClaimTypes.Role, "Customer")
+    };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(claimsPrincipal);
+
+            if (Url.IsLocalUrl(ReturnUrl))
+            {
+                return Redirect(ReturnUrl);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
         #endregion
 

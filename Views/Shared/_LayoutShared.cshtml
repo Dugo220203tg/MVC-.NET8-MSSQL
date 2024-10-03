@@ -182,8 +182,55 @@
 @*     <script src="~/js/MyJSs.js"></script>*@ 
     <script src="~/js/10022024.js"></script>
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        function confirmCancelOrder(orderId, btn) {
+            // Hiển thị thông báo xác nhận với SweetAlert2
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn hủy đơn hàng?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Từ chối',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Gọi Ajax để hủy đơn hàng khi người dùng chọn "Đồng ý"
+                    $.ajax({
+                        url: '/DonHang/HuyDonHang',  // Đường dẫn đến Action HuyDonHang
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ MaHD: orderId }),  // Gửi mã đơn hàng qua model
+                        success: function (response) {
+                            if (response.success) {  // Kiểm tra đúng thuộc tính success từ phản hồi
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thành công',
+                                    text: response.message,  
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                }).then(() => {
+                                    location.reload();  // Reload lại trang sau khi thành công
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: response.message, 
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Đã xảy ra lỗi khi hủy đơn hàng. Vui lòng thử lại!',
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
     <script>
-
         $(document).ready(function () {
             $('#submitComment').click(function () {
                 var MaHH = $('#MaHH').val();

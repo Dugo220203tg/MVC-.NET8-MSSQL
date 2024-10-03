@@ -58,4 +58,9 @@ namespace TDProjectMVC.ViewModels
         // Chi tiết hóa đơn
         public List<ChiTietHoaDonMD> ChiTietHds { get; set; } = new List<ChiTietHoaDonMD>();
     }
+    public class HoaDonUpdateStatusModel
+    {
+        public int MaHD { get; set; }
+        public int MaTrangThai { get; set; }
+    }
 }
