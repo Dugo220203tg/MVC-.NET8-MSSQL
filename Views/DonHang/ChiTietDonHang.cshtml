@@ -1,9 +1,9 @@
-﻿@model List<TDProjectMVC.ViewModels.DonHangVM>
+﻿@model TDProjectMVC.ViewModels.CtDonHangVM
 @{
-    ViewData["Title"] = "ChiTietDonHang";
+    ViewData["Title"] = "Chi Tiết Đơn Hàng";
 }
+
 <style>
-    /* Container chính của tiến trình */
     .timeline {
         display: flex;
         justify-content: space-between;
@@ -14,13 +14,12 @@
         margin: 0 auto;
     }
 
-    /* Mỗi bước trong tiến trình */
     .step {
         text-align: center;
         position: relative;
+        flex: 1;
     }
 
-    /* Biểu tượng trạng thái */
     .step-icon {
         width: 50px;
         height: 50px;
@@ -31,36 +30,35 @@
         justify-content: center;
         align-items: center;
         margin: 0 auto;
+        z-index: 1;
+        position: relative;
     }
 
-    .step.active .step-icon {
+    .step.aitemive .step-icon {
         background-color: #4caf50;
         color: white;
     }
 
-    /* Thanh nối giữa các bước */
-    .step::after {
+    .step::before {
         content: '';
         position: absolute;
         width: 100%;
         height: 4px;
         background-color: #4caf50;
         top: 25px;
-        left: 50%;
-        z-index: -1;
+        left: -50%;
+        z-index: 0;
     }
 
-    .step:last-child::after {
+    .step:first-child::before {
         display: none;
     }
 
-    /* Trạng thái không kích hoạt */
-    .step.inactive .step-icon {
+    .step.inaitemive .step-icon {
         background-color: #e0e0e0;
         border-color: #bdbdbd;
     }
 
-    /* Nút thời gian và mô tả */
     .step-title {
         margin-top: 10px;
         font-size: 14px;
@@ -73,44 +71,107 @@
     }
 </style>
 
-<div class="timeline">
-    <div class="step active">
-        <div class="step-icon">
-            📝 <!-- Biểu tượng có thể thay bằng icon hoặc hình ảnh -->
-        </div>
-        <div class="step-title">Đơn Hàng Đã Đặt</div>
-        <div class="step-time">09:26 04-04-2023</div>
+<div class="container mt-4">
+    <h2>Chi Tiết Đơn Hàng #@Model.MaHD</h2>
+
+    <!-- Timeline -->
+    <div class="timeline">
+        @{
+            var steps = new[]
+            {
+        new { Icon = "📝", Title = "Đơn Hàng Đã Đặt", Time = Model.NgayDat },
+        new { Icon = "💵", Title = "Đã Xác Nhận", Time = Model.NgayDat.AddMinutes(30) },
+        new { Icon = "🚚", Title = "Đã Giao ĐVVC", Time = Model.NgayDat.AddHours(6) },
+        new { Icon = "📦", Title = "Đang Giao", Time = Model.NgayCan },
+        new { Icon = "⭐", Title = "Đã Giao", Time = Model.NgayGiao }
+        };
+
+            for (int i = 0; i < steps.Length; i++)
+            {
+                var isAitemive = i <= Model.MaTrangThai;
+                <div class="step @(isAitemive ? "aitemive" : "inaitemive")">
+                    <div class="step-icon">@steps[i].Icon</div>
+                    <div class="step-title">@steps[i].Title</div>
+                    <div class="step-time">
+                        @(isAitemive && steps[i].Time != default ? steps[i].Time.ToString("HH:mm dd-MM-yyyy") : "")
+                    </div>
+                </div>
+            }
+        }
     </div>
 
-    <div class="step active">
-        <div class="step-icon">
-            💵
+    <!-- Order Details -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4>Thông Tin Khách Hàng</h4>
+            <p><strong>Họ tên:</strong> @Model.HoTen</p>
+            <p><strong>Địa chỉ:</strong> @Model.DiaChi</p>
+            <p><strong>Điện thoại:</strong> @Model.DienThoai</p>
         </div>
-        <div class="step-title">Đã Xác Nhận Thông Tin Thanh Toán</div>
-        <div class="step-time">09:56 04-04-2023</div>
+        <div class="col-md-6">
+            <h4>Thông Tin Đơn Hàng</h4>
+            <p><strong>Ngày đặt:</strong> @Model.NgayDat.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Phương thức thanh toán:</strong> @Model.CachThanhToan</p>
+            <p><strong>Phương thức vận chuyển:</strong> @Model.CachVanChuyen</p>
+        </div>
     </div>
 
-    <div class="step active">
-        <div class="step-icon">
-            🚚
-        </div>
-        <div class="step-title">Đã Giao Cho ĐVVC</div>
-        <div class="step-time">15:05 04-04-2023</div>
-    </div>
+    <!-- Order Items -->
+    <h4 class="mt-4">Chi Tiết Sản Phẩm</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Giảm giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ChiTietHds)
+            {
+                <tr>
+                    <td>@item.TenHangHoa</td>
+                    <td>
+                        @{
+                            string firstImageUrl = string.Empty;
+                            if (!string.IsNullOrEmpty(item.HinhAnh))
+                            {
+                                var imageUrls = item.HinhAnh.Split(',');
+                                firstImageUrl = imageUrls.FirstOrDefault();
+                            }
+                        }
+                        @if (!string.IsNullOrEmpty(firstImageUrl))
+                        {
+                            <img src="~/Hinh/Hinh/HangHoa/@item.MaHH/@firstImageUrl" class="img-fluid me-5 rounded-circle" style="width: 65px; height: 65px;" alt="@item.TenHangHoa">
+                        }
+                        else
+                        {
+                            <span>No image available</span>
+                        }
+                    </td>
+                    <td >@item.DonGia.ToString("N0") đ</td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.MaGiamGia%</td>
+                    <td style="color:#D10024">$ @item.ThanhTien.ToString("N0") </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-right"><strong>Phí vận chuyển:</strong></td>
+                <td style="color:#D10024">$ @(((decimal)Model.PhiVanChuyen).ToString("N0"))</td>
+            </tr>
+            <tr >
+                <td colspan="5" class="text-right"><strong>Tổng cộng:</strong></td>
+                <td style="color:#D10024"><strong>$ @string.Format("{0:N0}", Model.ChiTietHds.Sum(x => x.ThanhTien) + Model.PhiVanChuyen)</strong></td>
+            </tr>
+        </tfoot>
+    </table>
 
-    <div class="step active">
-        <div class="step-icon">
-            📦
-        </div>
-        <div class="step-title">Đang Giao</div>
-        <div class="step-time"></div>
-    </div>
-
-    <div class="step inactive">
-        <div class="step-icon">
-            ⭐
-        </div>
-        <div class="step-title">Đánh Giá</div>
-        <div class="step-time"></div>
+    <div class="text-right mt-4">
+        <a class="btn btn-secondary" href="@Url.Action("AllDonHang", "DonHang")">Quay lại danh sách đơn hàng</a>
     </div>
 </div>

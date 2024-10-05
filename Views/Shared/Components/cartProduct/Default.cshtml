@@ -38,7 +38,7 @@
                             <h2 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
                                 <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.MaHH">@item.TenHH</a>
                             </h2>
-                            <h4 class="product-price"><span class="qty">@item.SoLuong x</span>$@item.DonGia</h4>
+                            <h4 class="product-price"><span class="qty">@item.SoLuong x</span>$ @item.DonGia</h4>
                         </div>
                         <button class="delete" onclick="RemoveCart(@item.MaHH, this)">
                             <i class="fa fa-times text-danger"></i>
@@ -50,7 +50,7 @@
     </div>
     <div class="cart-summary">
         <small>@(Model?.TotalQuantity ?? 0) Item(s) selected</small>
-        <h5>SUBTOTAL: $@(Model?.TotalAmount ?? 0)</h5>
+        <h5>SUBTOTAL: $ @(Model?.TotalAmount ?? 0)</h5>
     </div>
     <div class="cart-btns">
         <a href="/Cart">View Cart</a>

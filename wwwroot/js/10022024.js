@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <h2 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
                                         <a href="/Product/Detail/${item.maHH}">${item.tenHH}</a>
                                     </h2>
-                                    <h4 class="product-price"><span class="qty">${item.soLuong} x</span>$${item.donGia}</h4>
+                                    <h4 class="product-price"><span class="qty">${item.soLuong} x</span>$ ${item.donGia}</h4>
                                 </div>
                                 <button class="delete" onclick="RemoveCart(${item.maHH}, this)">
                                     <i class="fa fa-times text-danger"></i>
@@ -247,6 +247,7 @@ function updateWishList() {
                             <h2 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
                                 <a href="#">${item.tenHH}</a>
                             </h2>
+                            <h4 class="product-price">$ ${item.donGia}</h4>
                         </div>
                         <button class="delete" data-product-id="${item.maYT}" onclick="RemoveWishList(${item.maYT}, this)">
                             <i class="fa fa-close"></i>

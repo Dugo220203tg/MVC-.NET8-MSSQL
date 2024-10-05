@@ -63,7 +63,7 @@ namespace TDProjectMVC.Controllers
             // Trả về kết quả cho View
             return View(result);
         }
-        public IActionResult ChiTietDonHang(int MaHD)
+        public async Task<IActionResult> ChiTietDonHang(int MaHD)
         {
             if (MaHD <= 0)
             {
@@ -76,30 +76,34 @@ namespace TDProjectMVC.Controllers
                 return Unauthorized("Không thể xác định người dùng.");
             }
 
-            var hoaDon = db.HoaDons
+            var hoaDon = await db.HoaDons
                 .Include(hd => hd.MaTrangThaiNavigation)
                 .Include(hd => hd.ChiTietHds)
                     .ThenInclude(ct => ct.MaHhNavigation)
-                .FirstOrDefault(hd => hd.MaHd == MaHD && hd.MaKh == MaKh);
+                .FirstOrDefaultAsync(hd => hd.MaHd == MaHD && hd.MaKh == MaKh); // Added check for MaKh
 
             if (hoaDon == null)
             {
                 return NotFound($"Không tìm thấy đơn hàng với mã {MaHD} hoặc không thuộc về khách hàng hiện tại.");
             }
-            // Tạo đối tượng ViewModel
-            var result = new DonHangVM
+
+            var result = new CtDonHangVM
             {
                 MaHD = hoaDon.MaHd,
                 MaKH = hoaDon.MaKh,
                 NgayDat = hoaDon.NgayDat,
+                //NgayCan = hoaDon.NgayCan,
+                //NgayGiao = hoaDon.NgayGiao,
                 HoTen = hoaDon.HoTen,
                 DiaChi = hoaDon.DiaChi,
                 CachThanhToan = hoaDon.CachThanhToan,
                 CachVanChuyen = hoaDon.CachVanChuyen,
-                PhiVanChuyen = (int)hoaDon.PhiVanChuyen,
+                PhiVanChuyen = (float)hoaDon.PhiVanChuyen ,
                 MaTrangThai = hoaDon.MaTrangThai,
                 DienThoai = hoaDon.DienThoai,
-                TrangThai = hoaDon.MaTrangThaiNavigation.TenTrangThai,
+                TrangThai = hoaDon.MaTrangThaiNavigation?.TenTrangThai,
+                //MaNV = hoaDon.MaNV,
+                GhiChu = hoaDon.GhiChu,
                 ChiTietHds = hoaDon.ChiTietHds.Select(ct => new ChiTietHoaDonMD
                 {
                     MaCT = ct.MaCt,
@@ -107,9 +111,9 @@ namespace TDProjectMVC.Controllers
                     MaHH = ct.MaHh,
                     SoLuong = ct.SoLuong,
                     DonGia = ct.DonGia,
-                    TenHangHoa = ct.MaHhNavigation.TenHh,
+                    TenHangHoa = ct.MaHhNavigation?.TenHh,
                     MaGiamGia = (int)ct.MaGiamGia,
-                    HinhAnh = ct.MaHhNavigation.Hinh
+                    HinhAnh = ct.MaHhNavigation?.Hinh
                 }).ToList()
             };
 
@@ -128,7 +132,7 @@ namespace TDProjectMVC.Controllers
                 hoaDons = hoaDons.Where(hd => hd.MaKh == MaKh);
             }
             // Lấy chi tiết hóa đơn liên kết với các hóa đơn vừa truy vấn
-            var result = hoaDons.Select(hd => new DonHangVM
+            var result = hoaDons.Select(hd => new CtDonHangVM
             {
                 MaHD = hd.MaHd,
                 MaKH = hd.MaKh,

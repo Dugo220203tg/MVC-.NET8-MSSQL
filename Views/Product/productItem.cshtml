@@ -43,7 +43,7 @@
                         <h3 class="product-name" style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;">
                             <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.MaHH">@item.TenHH</a>
                         </h3>
-                        <h4 class="product-price">$@item.DonGia&nbsp;<del class="product-old-price">$@(item.DonGia * (100 + item.GiamGia) / 100)</del></h4>
+                        <h4 class="product-price">$ @item.DonGia&nbsp;<del class="product-old-price">$ @(item.DonGia * (100 + item.GiamGia) / 100)</del></h4>
                         <div class="product-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>

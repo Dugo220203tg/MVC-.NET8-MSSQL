@@ -65,7 +65,7 @@
                             <a class="review-link" href="#">10 Review(s) | Add your review</a>
                         </div>
                         <div>
-                            <h3 class="product-price">$@Model.DonGia <del class="product-old-price">$@(Model.DonGia * (100 + Model.GiamGia) / 100)</del></h3>
+                            <h3 class="product-price">$ @Model.DonGia <del class="product-old-price">$ @(Model.DonGia * (100 + Model.GiamGia) / 100)</del></h3>
                             <span class="product-available">In Stock</span>
                         </div>
                         <p>@Model.MoTa</p>
@@ -94,7 +94,7 @@
                                         <span class="qty-down">-</span>
                                     </div>
                                 </div>
-                                <button type="button" class="add-to-cart-btn" onclick="addToCart(@Model.MaHH, $('#quantity').val(), 'Normal')">
+                                <button type="button" class="add-to-cart-btn" onclick="addToCart(@Model.MaHH, $ ('#quantity').val(), 'Normal')">
                                     <i class="fa fa-shopping-cart"></i> add to cart
                                 </button>
                             </form>
